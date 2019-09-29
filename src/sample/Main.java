@@ -5,12 +5,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.AI.PropositionalLogicResolution;
@@ -54,7 +56,7 @@ public class Main extends Application {
 
         VBox vbox = new VBox();
 
-        vbox.setStyle("-fx-padding: 8 15 15 15;\n" +
+        vbox.setStyle("-fx-padding: 8 0 15 15;\n" +
                 "    -fx-border-width: 1;\n" +
                 "    -fx-border-color: transparent #E8E8E8 transparent transparent;\n" +
                 "    -fx-background-color: #E8E8E8;");
@@ -127,10 +129,31 @@ public class Main extends Application {
         GridPane.setMargin(circle, new Insets(12, 0, 0, 17));
         vbox.getChildren().add(gp);
         root.setLeft(vbox);
+        GridPane sidewindow =new GridPane();
+        sidewindow.setStyle("-fx-padding: 10 10 10 10;");
+        sidewindow.setHgap(10);
+        sidewindow.setVgap(10);
+        Label scoreText = new Label("Score:");
+        scoreText.setStyle("-fx-font-size: 18;");
+        scoreText.setTextFill(Color.valueOf("Green"));
+        Label score = new Label("0");
+        score.setStyle("-fx-font-size:18;");
+        sidewindow.add(scoreText,1,1);
+        sidewindow.add(score,2,1);
+        BorderPane sidePane = new BorderPane();
+        sidePane.setTop(sidewindow);
+
+        TextArea textArea =new TextArea();
+        textArea.setPrefRowCount(80);
+        textArea.setPrefColumnCount(40);
+        sidePane.setCenter(textArea);
+        sidePane.setStyle("-fx-padding: 10");
+        root.setCenter(sidePane);
         primaryStage.setTitle("Wumpus World!");
         primaryStage.setScene(new Scene(root, 750, 630));
         primaryStage.setMinHeight(500);
-        primaryStage.setMinWidth(700);
+        primaryStage.setMinWidth(600);
+        primaryStage.setResizable(false);
         primaryStage.show();
         changePlayerPosition(0, 0);
         agentPercept.getKnowledgeBaseSingleton().printKB();
