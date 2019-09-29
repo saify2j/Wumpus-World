@@ -32,7 +32,7 @@ public class Main extends Application {
     String worldEnv[][];
     Circle circle = new Circle();
     PropositionalLogicResolution propositionalLogicResolution = new PropositionalLogicResolution();
-
+    Thread simulationThread;
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -164,7 +164,7 @@ public class Main extends Application {
 
 
     private void startSimulation() {
-        new Thread(() -> { //use another thread so long process does not block gui
+        simulationThread = new Thread(() -> { //use another thread so long process does not block gui
             changePlayerPosition(agentPercept.getCurrCol(), agentPercept.getCurrRow());
             while (true) {
                 try {
@@ -181,7 +181,8 @@ public class Main extends Application {
 
             }
 
-        }).start();
+        });
+        simulationThread.start();
     }
 
 
@@ -199,21 +200,27 @@ public class Main extends Application {
         GridPane.setColumnIndex(circle, x);
         String info = agentPercept.addKnowledgeFromPercept(worldEnv[y][x]);
 
-        if (info.equals("Wumpus")) {
-            System.out.println("WUMPUS KILLED YOU!!!!!!");
-            return;
-        } else if (info.equals("Pit")) {
-            System.out.println("YOU FELL IN PIT!!!!!!");
-            return;
-        } else if (info.equals("Gold")) {
-            System.out.println("YOU FOUND THE GOLD!!!!!!");
-            return;
+        try {
+            if (info.equals("Wumpus")) {
+                System.out.println("WUMPUS KILLED YOU!!!!!!");
+                simulationThread.join();
+            } else if (info.equals("Pit")) {
+                System.out.println("YOU FELL IN PIT!!!!!!");
+                simulationThread.join();
+            } else if (info.equals("Gold")) {
+                System.out.println("YOU FOUND THE GOLD!!!!!!");
+                simulationThread.join();
+            }
+        }catch (InterruptedException e ){
+            e.printStackTrace();
         }
+
     }
 
 
     private int pickMove() {
         int priority = -1000;
+        int dangerDir = -1;
         int moveDir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
 
 //        if(agentPercept.getCurrCol() == 0 || agentPercept.getCurrCol()== 9) moveDir = 1;
@@ -235,6 +242,7 @@ public class Main extends Application {
         if (agentPercept.getCurrCol() - 1 > -1) {
             int p = getPriority(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
             if (priority < p) {
+                if(p==-100 || p == -10) dangerDir = 3;
                 priority = p;
                 moveDir = 3;
             }
@@ -244,6 +252,8 @@ public class Main extends Application {
         if (agentPercept.getCurrCol() + 1 < 10) {
             int p = getPriority(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
             if (priority < p) {
+                if(p==-100 || p == -10) dangerDir = 1;
+
                 priority = p;
                 moveDir = 1;
             }
@@ -252,7 +262,9 @@ public class Main extends Application {
 
         if (agentPercept.getCurrRow() - 1 > -1) {
             int p = getPriority(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
-            if (priority < p) {
+            if (priority < p ) {
+                if(p==-100 || p == -10) dangerDir = 0;
+
                 priority = p;
                 moveDir = 0;
             }
@@ -262,7 +274,9 @@ public class Main extends Application {
 
         if (agentPercept.getCurrRow() + 1 < 10) {
             int p = getPriority(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
-            if (priority < p) {
+            if (priority < p ) {
+                if(p==-100 || p == -10) dangerDir = 2;
+
                 priority = p;
                 moveDir = 2;
             }
@@ -270,7 +284,7 @@ public class Main extends Application {
         }
 
         if (moveDir == 0) {
-            if (agentPercept.getCurrRow() -1>-1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() -1)>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow() - 1
+            if (agentPercept.getCurrRow() -1>-1&& !propositionalLogicResolution.getResolutionResult("W" + agentPercept.getCurrCol()+ (agentPercept.getCurrRow() -1)) && !propositionalLogicResolution.getResolutionResult("P" + agentPercept.getCurrCol()+ (agentPercept.getCurrRow() -1))   && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() -1)>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow() - 1
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
 
                 int min = 100000000;
@@ -297,7 +311,9 @@ public class Main extends Application {
 
 
         if (moveDir == 1) {
-            if (agentPercept.getCurrCol() + 1<10 && agentPercept.getVisitedCount(agentPercept.getCurrCol()+1,agentPercept.getLastVisitedRow())>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
+            if (agentPercept.getCurrCol() + 1<10
+                    && !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol()+1)+ (agentPercept.getCurrRow())) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol()+1)+ (agentPercept.getCurrRow())) &&
+                    agentPercept.getVisitedCount(agentPercept.getCurrCol()+1,agentPercept.getLastVisitedRow())>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() + 1) {
 
 
@@ -324,7 +340,9 @@ public class Main extends Application {
 
 
         if (moveDir == 2) {
-            if (agentPercept.getLastVisitedRow() + 1<10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(),agentPercept.getLastVisitedRow() + 1)>0 &&agentPercept.getLastVisitedRow() + 1 == agentPercept.getCurrRow()
+            if (agentPercept.getLastVisitedRow() + 1<10 &&
+                    !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol())+ (agentPercept.getCurrRow()+1)) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol())+ (agentPercept.getCurrRow()+1))
+                    && agentPercept.getVisitedCount(agentPercept.getCurrCol(),agentPercept.getLastVisitedRow() + 1)>0 &&agentPercept.getLastVisitedRow() + 1 == agentPercept.getCurrRow()
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
 
                 int min = 100000000;
@@ -350,7 +368,10 @@ public class Main extends Application {
 
 
         if (moveDir == 3) {
-            if (agentPercept.getCurrCol() - 1>-1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 || agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
+            if (agentPercept.getCurrCol() - 1>-1 &&
+                    !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol()-1)+ (agentPercept.getCurrRow())) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol()-1)+ (agentPercept.getCurrRow())) &&
+
+                    agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 || agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() - 1) {
 
                 int min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
@@ -379,6 +400,10 @@ public class Main extends Application {
 
 //        Scanner sc = new Scanner(System.in);
 //        sc.nextLine();
+        if(moveDir == dangerDir){
+            moveDir= (moveDir+2)%4;
+        }
+
         return moveDir;
     }
 
