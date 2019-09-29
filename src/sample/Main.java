@@ -1,15 +1,18 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -118,15 +121,17 @@ public class Main extends Application {
         }
 
 //        gp.setGridLinesVisible(true);
-
+        Image im =new Image("agentbg.png");
+        circle.setFill(new ImagePattern(im));
 //        circle.setUserData("Player");
-        circle.setFill(Color.valueOf("Red"));
-        circle.setRadius(8);
+//        circle.setFill(Color.valueOf("Red"));
+        circle.setRadius(18);
         circle.setUserData("Player");
+        GridPane.setHalignment(circle, HPos.CENTER);
         GridPane.setRowIndex(circle, agentPercept.getCurrRow());
         GridPane.setColumnIndex(circle, agentPercept.getCurrCol());
         gp.getChildren().add(circle);
-        GridPane.setMargin(circle, new Insets(12, 0, 0, 17));
+        //GridPane.setMargin(circle, new Insets(12, 0, 0, 17));
         vbox.getChildren().add(gp);
         root.setLeft(vbox);
         GridPane sidewindow =new GridPane();
