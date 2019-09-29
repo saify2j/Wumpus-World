@@ -247,7 +247,7 @@ public class Main extends Application {
         }
 
         if (moveDir == 0) {
-            if (agentPercept.getLastVisitedRow() == agentPercept.getCurrRow() - 1
+            if (agentPercept.getCurrRow() -1>-1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() -1)>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow() - 1
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
 
                 int min = 100000000;
@@ -274,7 +274,7 @@ public class Main extends Application {
 
 
         if (moveDir == 1) {
-            if (agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
+            if (agentPercept.getCurrCol() + 1<10 && agentPercept.getVisitedCount(agentPercept.getCurrCol()+1,agentPercept.getLastVisitedRow())>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() + 1) {
 
 
@@ -301,7 +301,7 @@ public class Main extends Application {
 
 
         if (moveDir == 2) {
-            if (agentPercept.getLastVisitedRow() + 1 == agentPercept.getCurrRow()
+            if (agentPercept.getLastVisitedRow() + 1<10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(),agentPercept.getLastVisitedRow() + 1)>0 &&agentPercept.getLastVisitedRow() + 1 == agentPercept.getCurrRow()
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
 
                 int min = 100000000;
@@ -327,10 +327,10 @@ public class Main extends Application {
 
 
         if (moveDir == 3) {
-            if (agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
+            if (agentPercept.getCurrCol() - 1>-1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 || agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
                     && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() - 1) {
 
-                int min = 100000000;
+                int min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
 
                 if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
@@ -354,8 +354,8 @@ public class Main extends Application {
         System.out.println("priority: "+priority);
         System.out.println("Dir: "+moveDir);
 
-        Scanner sc = new Scanner(System.in);
-        sc.nextLine();
+//        Scanner sc = new Scanner(System.in);
+//        sc.nextLine();
         return moveDir;
     }
 
