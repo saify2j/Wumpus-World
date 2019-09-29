@@ -252,18 +252,18 @@ public class Main extends Application {
 
                 int min = 100000000;
 
-                if (agentPercept.getCurrRow() + 1 < 10 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
+                if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
                     moveDir = 2;
                 }
 
 
-                if (agentPercept.getCurrCol() + 1 < 10 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
+                if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
                     moveDir = 1;
                 }
 
-                if (agentPercept.getCurrCol() - 1 > -1 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
+                if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
                     moveDir = 3;
                 }
@@ -280,18 +280,18 @@ public class Main extends Application {
 
                 int min = 100000000;
 
-                if (agentPercept.getCurrRow() + 1 < 10 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
+                if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
                     moveDir = 2;
                 }
 
 
-                if (agentPercept.getCurrRow() - 1 > -1 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
+                if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
                     moveDir = 0;
                 }
 
-                if (agentPercept.getCurrCol() - 1 > -1 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
+                if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
                     moveDir = 3;
                 }
@@ -306,18 +306,18 @@ public class Main extends Application {
 
                 int min = 100000000;
 
-                if (agentPercept.getCurrCol() + 1 < 10 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
+                if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
                     moveDir = 1;
                 }
 
 
-                if (agentPercept.getCurrRow() - 1 > -1 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
+                if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
                     moveDir = 0;
                 }
 
-                if (agentPercept.getCurrCol() - 1 > -1 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
+                if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
                     moveDir = 3;
                 }
@@ -332,18 +332,18 @@ public class Main extends Application {
 
                 int min = 100000000;
 
-                if (agentPercept.getCurrCol() + 1 < 10 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
+                if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
                     moveDir = 1;
                 }
 
 
-                if (agentPercept.getCurrRow() - 1 > -1 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
+                if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
                     moveDir = 0;
                 }
 
-                if (agentPercept.getCurrRow() + 1 < 10 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
+                if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
                     min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
                     moveDir = 2;
                 }
@@ -363,7 +363,7 @@ public class Main extends Application {
         int p = 0;
         //check if visited
         if (agentPercept.getVisitedCount(x, y) > 0) p = 1;
-        else p = 3;
+        else p = 5;
 
 
         if (propositionalLogicResolution.getResolutionResult("~P" + x + y)) {
@@ -390,8 +390,10 @@ public class Main extends Application {
         if (propositionalLogicResolution.getResolutionResult("G" + x + y)) {
             System.out.println("GOLD at " + x + " " + y);
             p = 100;
-        } else
+        } else{
             System.out.println("No GOLD at " + x + " " + y);
+        }
+
 
 
         return p;
@@ -403,16 +405,6 @@ public class Main extends Application {
     }
 
 
-//    private Node getByUserData(Parent parent, Object data) {
-//
-//        for (Node n : parent.getChildrenUnmodifiable()) {
-//            if (data.equals(n.getUserData())) {
-//                return n;
-//            } else return null;
-//
-//        }
-//        return null;
-//    }
 }
 
 
