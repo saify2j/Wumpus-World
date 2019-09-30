@@ -51,7 +51,7 @@ public class Main extends Application {
         Button startBtn = new Button("Start");
         bpane.setRight(startBtn);
 
-
+        startBtn.setVisible(false);
         bpane.setLeft(gameName);
         bpane.setStyle("-fx-background-color:darkslateblue;-fx-padding: 10px;\n" +
                 "    -fx-font-size: 20px;-fx-color:white");
@@ -59,12 +59,12 @@ public class Main extends Application {
 
         VBox vbox = new VBox();
 
-        vbox.setStyle("-fx-padding: 8 0 15 15;\n" +
+        vbox.setStyle("-fx-padding: 8 15 15 15;\n" +
                 "    -fx-border-width: 1;\n" +
                 "    -fx-border-color: transparent #E8E8E8 transparent transparent;\n" +
                 "    -fx-background-color: #E8E8E8;");
 
-        gp.setStyle("-fx-padding: 8 15 15 15");
+        gp.setStyle("-fx-padding: 15 15 15 15");
         gp.setVgap(2.5);
         gp.setHgap(2.5);
 
@@ -121,10 +121,10 @@ public class Main extends Application {
         }
 
 //        gp.setGridLinesVisible(true);
-//        Image im =new Image("agentbg.png");
-//        circle.setFill(new ImagePattern(im));
+       Image im =new Image("agentbg.png");
+       circle.setFill(new ImagePattern(im));
 //        circle.setUserData("Player");
-        circle.setFill(Color.valueOf("Red"));
+       // circle.setFill(Color.valueOf("Red"));
         circle.setRadius(18);
         circle.setUserData("Player");
         GridPane.setHalignment(circle, HPos.CENTER);
@@ -147,15 +147,16 @@ public class Main extends Application {
         sidewindow.add(score,2,1);
         BorderPane sidePane = new BorderPane();
         sidePane.setTop(sidewindow);
-
+        sidePane.setVisible(false);
         TextArea textArea =new TextArea();
         textArea.setPrefRowCount(80);
         textArea.setPrefColumnCount(40);
         sidePane.setCenter(textArea);
         sidePane.setStyle("-fx-padding: 10");
         root.setCenter(sidePane);
+        root.setStyle("-fx-background-color:#E8E8E8;");
         primaryStage.setTitle("Wumpus World!");
-        primaryStage.setScene(new Scene(root, 750, 630));
+        primaryStage.setScene(new Scene(root, 600, 630));
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(600);
         primaryStage.setResizable(false);
