@@ -31,6 +31,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main extends Application {
 
     AgentPercept agentPercept = new AgentPercept();
+
+    String consoleText = "";
+
     GridPane gp = new GridPane();
     String worldEnv[][];
     Circle circle = new Circle();
@@ -207,13 +210,13 @@ public class Main extends Application {
 
         try {
             if (info.equals("Wumpus")) {
-                System.out.println("WUMPUS KILLED YOU!!!!!!");
+                consoleText+= "WUMPUS KILLED YOU!!!!!!\n";
                 simulationThread.join();
             } else if (info.equals("Pit")) {
-                System.out.println("YOU FELL IN PIT!!!!!!");
+                consoleText+="YOU FELL IN PIT!!!!!!\n";
                 simulationThread.join();
             } else if (info.equals("Gold")) {
-                System.out.println("YOU FOUND THE GOLD!!!!!!");
+                consoleText+="YOU FOUND THE GOLD!!!!!!\n";
                 simulationThread.join();
             }
         }catch (InterruptedException e ){
