@@ -121,10 +121,10 @@ public class Main extends Application {
         }
 
 //        gp.setGridLinesVisible(true);
-        Image im =new Image("agentbg.png");
-        circle.setFill(new ImagePattern(im));
+//        Image im =new Image("agentbg.png");
+//        circle.setFill(new ImagePattern(im));
 //        circle.setUserData("Player");
-//        circle.setFill(Color.valueOf("Red"));
+        circle.setFill(Color.valueOf("Red"));
         circle.setRadius(18);
         circle.setUserData("Player");
         GridPane.setHalignment(circle, HPos.CENTER);
@@ -287,118 +287,121 @@ public class Main extends Application {
             }
 
         }
+        if(dangerDir == -1)
+        {
+            if (moveDir == 0) {
+                if (agentPercept.getCurrRow() -1>-1&& !propositionalLogicResolution.getResolutionResult("W" + agentPercept.getCurrCol()+ (agentPercept.getCurrRow() -1)) && !propositionalLogicResolution.getResolutionResult("P" + agentPercept.getCurrCol()+ (agentPercept.getCurrRow() -1))   && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() -1)>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow() - 1
+                        && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
 
-        if (moveDir == 0) {
-            if (agentPercept.getCurrRow() -1>-1&& !propositionalLogicResolution.getResolutionResult("W" + agentPercept.getCurrCol()+ (agentPercept.getCurrRow() -1)) && !propositionalLogicResolution.getResolutionResult("P" + agentPercept.getCurrCol()+ (agentPercept.getCurrRow() -1))   && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() -1)>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow() - 1
-                    && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
+                    int min = 100000000;
 
-                int min = 100000000;
+                    if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
+                        moveDir = 2;
+                    }
 
-                if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
-                    moveDir = 2;
+
+                    if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
+                        moveDir = 1;
+                    }
+
+                    if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
+                        moveDir = 3;
+                    }
+
+
                 }
+            }
 
 
-                if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
-                    moveDir = 1;
+            if (moveDir == 1) {
+                if (agentPercept.getCurrCol() + 1<10
+                        && !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol()+1)+ (agentPercept.getCurrRow())) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol()+1)+ (agentPercept.getCurrRow())) &&
+                        agentPercept.getVisitedCount(agentPercept.getCurrCol()+1,agentPercept.getLastVisitedRow())>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
+                        && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() + 1) {
+
+
+                    int min = 100000000;
+
+                    if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
+                        moveDir = 2;
+                    }
+
+
+                    if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
+                        moveDir = 0;
+                    }
+
+                    if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
+                        moveDir = 3;
+                    }
+
                 }
+            }
 
-                if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
-                    moveDir = 3;
+
+            if (moveDir == 2) {
+                if (agentPercept.getLastVisitedRow() + 1<10 &&
+                        !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol())+ (agentPercept.getCurrRow()+1)) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol())+ (agentPercept.getCurrRow()+1))
+                        && agentPercept.getVisitedCount(agentPercept.getCurrCol(),agentPercept.getLastVisitedRow() + 1)>0 &&agentPercept.getLastVisitedRow() + 1 == agentPercept.getCurrRow()
+                        && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
+
+                    int min = 100000000;
+
+                    if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
+                        moveDir = 1;
+                    }
+
+
+                    if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
+                        moveDir = 0;
+                    }
+
+                    if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
+                        moveDir = 3;
+                    }
+
                 }
+            }
 
 
+            if (moveDir == 3) {
+                if (agentPercept.getCurrCol() - 1>-1 &&
+                        !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol()-1)+ (agentPercept.getCurrRow())) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol()-1)+ (agentPercept.getCurrRow())) &&
+
+                        agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 || agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
+                        && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() - 1) {
+
+                    int min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
+
+                    if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
+                        moveDir = 1;
+                    }
+
+
+                    if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
+                        moveDir = 0;
+                    }
+
+                    if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
+                        min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
+                        moveDir = 2;
+                    }
+
+                }
             }
         }
 
-
-        if (moveDir == 1) {
-            if (agentPercept.getCurrCol() + 1<10
-                    && !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol()+1)+ (agentPercept.getCurrRow())) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol()+1)+ (agentPercept.getCurrRow())) &&
-                    agentPercept.getVisitedCount(agentPercept.getCurrCol()+1,agentPercept.getLastVisitedRow())>0 &&agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
-                    && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() + 1) {
-
-
-                int min = 100000000;
-
-                if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
-                    moveDir = 2;
-                }
-
-
-                if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
-                    moveDir = 0;
-                }
-
-                if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
-                    moveDir = 3;
-                }
-
-            }
-        }
-
-
-        if (moveDir == 2) {
-            if (agentPercept.getLastVisitedRow() + 1<10 &&
-                    !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol())+ (agentPercept.getCurrRow()+1)) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol())+ (agentPercept.getCurrRow()+1))
-                    && agentPercept.getVisitedCount(agentPercept.getCurrCol(),agentPercept.getLastVisitedRow() + 1)>0 &&agentPercept.getLastVisitedRow() + 1 == agentPercept.getCurrRow()
-                    && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol()) {
-
-                int min = 100000000;
-
-                if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
-                    moveDir = 1;
-                }
-
-
-                if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
-                    moveDir = 0;
-                }
-
-                if (agentPercept.getCurrCol() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
-                    moveDir = 3;
-                }
-
-            }
-        }
-
-
-        if (moveDir == 3) {
-            if (agentPercept.getCurrCol() - 1>-1 &&
-                    !propositionalLogicResolution.getResolutionResult("W" + (agentPercept.getCurrCol()-1)+ (agentPercept.getCurrRow())) && !propositionalLogicResolution.getResolutionResult("P" + (agentPercept.getCurrCol()-1)+ (agentPercept.getCurrRow())) &&
-
-                    agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow())>0 || agentPercept.getLastVisitedRow() == agentPercept.getCurrRow()
-                    && agentPercept.getLastVisitedCol() == agentPercept.getCurrCol() - 1) {
-
-                int min = agentPercept.getVisitedCount(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
-
-                if (agentPercept.getCurrCol() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow())) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
-                    moveDir = 1;
-                }
-
-
-                if (agentPercept.getCurrRow() - 1 > -1 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1)) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
-                    moveDir = 0;
-                }
-
-                if (agentPercept.getCurrRow() + 1 < 10 && agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)>0 && min > agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1)) {
-                    min = agentPercept.getVisitedCount(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
-                    moveDir = 2;
-                }
-
-            }
-        }
 
         System.out.println("priority: "+priority);
         System.out.println("Dir: "+moveDir);
@@ -416,7 +419,7 @@ public class Main extends Application {
         int p = 0;
         //check if visited
         if (agentPercept.getVisitedCount(x, y) > 0) p = 1;
-        else p = 5;
+        else p = 2;
 
 
         if (propositionalLogicResolution.getResolutionResult("~P" + x + y)) {
@@ -425,16 +428,23 @@ public class Main extends Application {
             else p = 3;
 
         } else {
-            System.out.println("Pit at " + x + " " + y);
-            return -100;
+
+            if (propositionalLogicResolution.getResolutionResult("P" + x + y)) {
+                System.out.println("Pit at " + x + " " + y);
+                return -100;
+            }
+            if (agentPercept.getVisitedCount(x, y) > 0) p = 1;
+            else p = 0;
         }
 
 
         if (propositionalLogicResolution.getResolutionResult("~W" + x + y)) {
-            if (agentPercept.getVisitedCount(x, y) > 0) p = 1;
-            else p = 5;
+//            if (agentPercept.getVisitedCount(x, y) > 0) p = 1;
+            System.out.println("No Wumpus at: "+x+" "+y);
         } else {
-            return -10;
+            System.out.println("Wumpus at: "+x+" "+y);
+
+            return -100;
 //            System.out.println("WUMPUS at " + x + " " + y);
 
         }
