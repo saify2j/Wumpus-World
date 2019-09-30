@@ -1,41 +1,40 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.AI.PropositionalLogicResolution;
 import sample.utils.AgentPercept;
 import sample.utils.WmpsWorld;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main extends Application {
 
     AgentPercept agentPercept = new AgentPercept();
-
-    String consoleText = "";
-    int score = 0;
     GridPane gp = new GridPane();
-    Label scoreLabel = new Label("0");
-
     String worldEnv[][];
     Circle circle = new Circle();
     PropositionalLogicResolution propositionalLogicResolution = new PropositionalLogicResolution();
     Thread simulationThread;
+    int score = 0;
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -51,7 +50,7 @@ public class Main extends Application {
         Button startBtn = new Button("Start");
         bpane.setRight(startBtn);
 
-
+        startBtn.setVisible(false);
         bpane.setLeft(gameName);
         bpane.setStyle("-fx-background-color:darkslateblue;-fx-padding: 10px;\n" +
                 "    -fx-font-size: 20px;-fx-color:white");
@@ -59,12 +58,12 @@ public class Main extends Application {
 
         VBox vbox = new VBox();
 
-        vbox.setStyle("-fx-padding: 8 0 15 15;\n" +
+        vbox.setStyle("-fx-padding: 8 15 15 15;\n" +
                 "    -fx-border-width: 1;\n" +
                 "    -fx-border-color: transparent #E8E8E8 transparent transparent;\n" +
                 "    -fx-background-color: #E8E8E8;");
 
-        gp.setStyle("-fx-padding: 8 15 15 15");
+        gp.setStyle("-fx-padding: 15 15 15 15");
         gp.setVgap(2.5);
         gp.setHgap(2.5);
 
@@ -90,7 +89,7 @@ public class Main extends Application {
                 Rectangle rec = new Rectangle();
                 rec.setWidth(50);
                 rec.setHeight(50);
-                rec.setFill(Color.valueOf("beige"));
+                rec.setFill(Color.valueOf("black"));
                 String[] input = worldEnv[row][col].split(" ");
                 String output = "";
 
@@ -121,10 +120,10 @@ public class Main extends Application {
         }
 
 //        gp.setGridLinesVisible(true);
-//        Image im =new Image("agentbg.png");
-//        circle.setFill(new ImagePattern(im));
+       Image im =new Image("agentbg.png");
+       circle.setFill(new ImagePattern(im));
 //        circle.setUserData("Player");
-        circle.setFill(Color.valueOf("Red"));
+       // circle.setFill(Color.valueOf("Red"));
         circle.setRadius(18);
         circle.setUserData("Player");
         GridPane.setHalignment(circle, HPos.CENTER);
@@ -141,20 +140,22 @@ public class Main extends Application {
         Label scoreText = new Label("Score:");
         scoreText.setStyle("-fx-font-size: 18;");
         scoreText.setTextFill(Color.valueOf("Green"));
-        scoreLabel.setStyle("-fx-font-size:18;");
+        Label score = new Label("0");
+        score.setStyle("-fx-font-size:18;");
         sidewindow.add(scoreText,1,1);
-        sidewindow.add(scoreLabel,2,1);
+        sidewindow.add(score,2,1);
         BorderPane sidePane = new BorderPane();
         sidePane.setTop(sidewindow);
-
+        sidePane.setVisible(false);
         TextArea textArea =new TextArea();
         textArea.setPrefRowCount(80);
         textArea.setPrefColumnCount(40);
         sidePane.setCenter(textArea);
         sidePane.setStyle("-fx-padding: 10");
         root.setCenter(sidePane);
+        root.setStyle("-fx-background-color:#E8E8E8;");
         primaryStage.setTitle("Wumpus World!");
-        primaryStage.setScene(new Scene(root, 750, 630));
+        primaryStage.setScene(new Scene(root, 600, 630));
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(600);
         primaryStage.setResizable(false);
@@ -203,6 +204,8 @@ public class Main extends Application {
         agentPercept.setCurrCol(x);
         agentPercept.setCurrRow(y);
         agentPercept.addToVisitedList(x, y);
+        Rectangle rec = (Rectangle) getNodeByRowColumnIndex(y, x, gp);
+        rec.setFill(Color.valueOf("beige"));
 
         GridPane.setRowIndex(circle, y);
         GridPane.setColumnIndex(circle, x);
@@ -212,14 +215,60 @@ public class Main extends Application {
             if (info.equals("Wumpus")) {
                 score += -1000;
                 System.out.println( "WUMPUS KILLED YOU!!!!!!\n");
+                System.out.println("SCORE: "+score);
+
+                Platform.runLater(new Runnable(){
+                    @Override
+                    public void run() {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Game Over");
+                        alert.setHeaderText("Wumpus Killed you!!!!!!");
+                        alert.setContentText("Score: "+score);
+                        alert.show();
+
+                    }
+                });
                 simulationThread.join();
             } else if (info.equals("Pit")) {
                 score += -1000;
                 System.out.println("YOU FELL IN PIT!!!!!!\n");
+                System.out.println("SCORE: "+score);
+
+                Platform.runLater(new Runnable(){
+                    @Override
+                    public void run() {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                        alert.setTitle("Game Over");
+                        alert.setHeaderText("You fell in Pit!!!!!!");
+                        alert.setContentText("Score: "+score);
+                        alert.show();
+
+                    }
+                });
+
+
+
                 simulationThread.join();
             } else if (info.equals("Gold")) {
                 score += 1000;
                 System.out.println("YOU FOUND THE GOLD!!!!!!\n");
+                System.out.println("SCORE: "+score);
+
+                Platform.runLater(new Runnable(){
+                    @Override
+                    public void run() {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Game Over");
+                        alert.setHeaderText("YOU FOUND THE GOLD!!!!!!");
+                        alert.setContentText("Score: "+score);
+
+                        alert.show();
+                    }
+                });
+
+
+
                 simulationThread.join();
             }
         }catch (InterruptedException e ){
@@ -483,10 +532,24 @@ public class Main extends Application {
     }
 
 
+    public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+
     public static void main(String[] args) {
         launch(args);
     }
-
 
 }
 
