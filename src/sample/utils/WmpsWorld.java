@@ -55,20 +55,30 @@ public class WmpsWorld {
 
 	private void setWumpus() {
 		// TODO Auto-generated method stub
-		int i =rand.nextInt(9)+1;
-		int j =rand.nextInt(9)+1;
-		
-		if(world[i][j]==-1) {
-			world[i][j]=1;
-			mainWorld[i][j]=list[1];
+
+		int wumpus = rand.nextInt(3)+2;
+
+		for(int loop=1;loop<=wumpus;loop++) {
+			int i =rand.nextInt(9)+1;
+			int j =rand.nextInt(9)+1;
+
+			if(world[i][j]==-1) {
+				world[i][j]=1;
+				mainWorld[i][j]=list[1];
+			}
+			else {
+				world[i][j]=1;
+				mainWorld[i][j]=mainWorld[i][j]+" "+list[1];
+			}
+
+
+			setSurroundings(i,j,2);
+
+
+
 		}
-		else {
-			world[i][j]=1;
-			mainWorld[i][j]=mainWorld[i][j]+" "+list[1];
-		}
-		
-		
-		setSurroundings(i,j,2);
+
+
 		
 	}
 	

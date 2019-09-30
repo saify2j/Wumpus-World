@@ -1,8 +1,10 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -50,7 +52,7 @@ public class Main extends Application {
 
         Button startBtn = new Button("Start");
         bpane.setRight(startBtn);
-
+        startBtn.setVisible(false);
 
         bpane.setLeft(gameName);
         bpane.setStyle("-fx-background-color:darkslateblue;-fx-padding: 10px;\n" +
@@ -121,10 +123,10 @@ public class Main extends Application {
         }
 
 //        gp.setGridLinesVisible(true);
-//        Image im =new Image("agentbg.png");
-//        circle.setFill(new ImagePattern(im));
+      Image im =new Image("agentbg.png");
+      circle.setFill(new ImagePattern(im));
 //        circle.setUserData("Player");
-        circle.setFill(Color.valueOf("Red"));
+    //    circle.setFill(Color.valueOf("Red"));
         circle.setRadius(18);
         circle.setUserData("Player");
         GridPane.setHalignment(circle, HPos.CENTER);
@@ -200,6 +202,7 @@ public class Main extends Application {
         agentPercept.setCurrCol(x);
         agentPercept.setCurrRow(y);
         agentPercept.addToVisitedList(x, y);
+
 
         GridPane.setRowIndex(circle, y);
         GridPane.setColumnIndex(circle, x);
@@ -462,6 +465,19 @@ public class Main extends Application {
         return p;
     }
 
+    public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+
+        return result;
+    }
 
     public static void main(String[] args) {
         launch(args);
