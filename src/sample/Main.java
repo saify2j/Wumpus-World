@@ -2,20 +2,16 @@ package sample;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.AI.PropositionalLogicResolution;
@@ -25,7 +21,6 @@ import sample.utils.WmpsWorld;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main extends Application {
@@ -33,8 +28,10 @@ public class Main extends Application {
     AgentPercept agentPercept = new AgentPercept();
 
     String consoleText = "";
-
+    int score = 0;
     GridPane gp = new GridPane();
+    Label scoreLabel = new Label("0");
+
     String worldEnv[][];
     Circle circle = new Circle();
     PropositionalLogicResolution propositionalLogicResolution = new PropositionalLogicResolution();
@@ -144,10 +141,9 @@ public class Main extends Application {
         Label scoreText = new Label("Score:");
         scoreText.setStyle("-fx-font-size: 18;");
         scoreText.setTextFill(Color.valueOf("Green"));
-        Label score = new Label("0");
-        score.setStyle("-fx-font-size:18;");
+        scoreLabel.setStyle("-fx-font-size:18;");
         sidewindow.add(scoreText,1,1);
-        sidewindow.add(score,2,1);
+        sidewindow.add(scoreLabel,2,1);
         BorderPane sidePane = new BorderPane();
         sidePane.setTop(sidewindow);
 
@@ -182,10 +178,14 @@ public class Main extends Application {
                 }
 
                 int dir = pickMove();
+                System.out.println("SCORE: "+score);
+                score -=1;
+                agentPercept.setCurrDirection(dir);
                 if (dir == 0) changePlayerPosition(agentPercept.getCurrCol(), agentPercept.getCurrRow() - 1);
                 else if (dir == 1) changePlayerPosition(agentPercept.getCurrCol() + 1, agentPercept.getCurrRow());
                 else if (dir == 2) changePlayerPosition(agentPercept.getCurrCol(), agentPercept.getCurrRow() + 1);
                 else if (dir == 3) changePlayerPosition(agentPercept.getCurrCol() - 1, agentPercept.getCurrRow());
+
 
             }
 
@@ -210,13 +210,16 @@ public class Main extends Application {
 
         try {
             if (info.equals("Wumpus")) {
-                consoleText+= "WUMPUS KILLED YOU!!!!!!\n";
+                score += -1000;
+                System.out.println( "WUMPUS KILLED YOU!!!!!!\n");
                 simulationThread.join();
             } else if (info.equals("Pit")) {
-                consoleText+="YOU FELL IN PIT!!!!!!\n";
+                score += -1000;
+                System.out.println("YOU FELL IN PIT!!!!!!\n");
                 simulationThread.join();
             } else if (info.equals("Gold")) {
-                consoleText+="YOU FOUND THE GOLD!!!!!!\n";
+                score += 1000;
+                System.out.println("YOU FOUND THE GOLD!!!!!!\n");
                 simulationThread.join();
             }
         }catch (InterruptedException e ){
@@ -227,6 +230,7 @@ public class Main extends Application {
 
 
     private int pickMove() {
+
         int priority = -1000;
         int dangerDir = -1;
         int moveDir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
@@ -411,7 +415,20 @@ public class Main extends Application {
 
 //        Scanner sc = new Scanner(System.in);
 //        sc.nextLine();
-        if(moveDir == dangerDir){
+
+        if(agentPercept.getCurrDirection() - moveDir == 1) {
+            score -= 1;
+            System.out.println("turning left\n");
+        }
+        else if(agentPercept.getCurrDirection() - moveDir == -1){
+            score-=1;
+            System.out.println("turning right\n");
+        }
+
+
+        else if(moveDir == dangerDir){
+            score += -2;
+            System.out.println("turning left*2\n");
             moveDir= (moveDir+2)%4;
         }
 
@@ -433,7 +450,7 @@ public class Main extends Application {
         } else {
 
             if (propositionalLogicResolution.getResolutionResult("P" + x + y)) {
-                System.out.println("Pit at " + x + " " + y);
+                System.out.println("Pit at " + x + " " + y+"\n");
                 return -100;
             }
             if (agentPercept.getVisitedCount(x, y) > 0) p = 1;
@@ -445,7 +462,7 @@ public class Main extends Application {
 //            if (agentPercept.getVisitedCount(x, y) > 0) p = 1;
             System.out.println("No Wumpus at: "+x+" "+y);
         } else {
-            System.out.println("Wumpus at: "+x+" "+y);
+            System.out.println( "Wumpus at: "+x+" "+y +"\n");
 
             return -100;
 //            System.out.println("WUMPUS at " + x + " " + y);
@@ -454,7 +471,7 @@ public class Main extends Application {
 
 
         if (propositionalLogicResolution.getResolutionResult("G" + x + y)) {
-            System.out.println("GOLD at " + x + " " + y);
+            System.out.println("GOLD at " + x + " " + y+"\n");
             p = 100;
         } else{
             System.out.println("No GOLD at " + x + " " + y);
